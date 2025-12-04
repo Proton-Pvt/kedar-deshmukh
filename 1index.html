@@ -1,0 +1,992 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Aurora Bistro — Modern Restaurant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --primary:#ff7a1a;
+      --primary-soft:#ffe1c7;
+      --accent:#222;
+      --bg:#fff7f0;
+      --card:#ffffff;
+      --muted:#666;
+      --border:#e5e5e5;
+    }
+    html.dark-mode{
+      --bg:#101114;
+      --card:#171821;
+      --accent:#f5f5f5;
+      --muted:#bfbfbf;
+      --border:#333;
+      --primary:#ff9b3b;
+      --primary-soft:#2a2119;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:Inter,system-ui,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--accent);
+      -webkit-font-smoothing:antialiased;
+      transition:background .3s,color .3s;
+    }
+    a{text-decoration:none;color:inherit}
+
+    /* NAVBAR */
+    header{
+      background:linear-gradient(135deg,#1b1b1f,#3b2415);
+      color:#fff;
+      position:sticky;
+      top:0;
+      z-index:40;
+      backdrop-filter:blur(14px);
+    }
+    .nav{
+      max-width:1200px;
+      margin:0 auto;
+      padding:12px 20px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .brand{
+      display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;
+    }
+    .logo{
+      width:40px;height:40px;border-radius:13px;
+      background:linear-gradient(135deg,#ffb347,#ff7a1a);
+      display:flex;align-items:center;justify-content:center;
+      color:#111;font-weight:900;font-size:18px;
+      box-shadow:0 6px 16px rgba(0,0,0,.35);
+    }
+    nav{display:flex;align-items:center;gap:14px;font-size:14px;}
+    nav a{color:#fff;opacity:.9;position:relative;}
+    nav a::after{
+      content:"";position:absolute;left:0;bottom:-4px;width:0;height:2px;
+      background:#ffb347;border-radius:999px;transition:width .25s;
+    }
+    nav a:hover::after{width:100%;}
+    nav a.cta{
+      background:#fff;color:#111;padding:8px 14px;border-radius:999px;
+      font-weight:700;box-shadow:0 4px 10px rgba(0,0,0,.25);
+    }
+    #darkToggle{
+      border:1px solid rgba(255,255,255,.4);
+      padding:6px 12px;border-radius:999px;
+      background:transparent;color:#fff;font-size:13px;
+      cursor:pointer;
+    }
+
+    .cart-btn{
+      background:#ffb347;color:#111;padding:8px 12px;border-radius:999px;
+      font-weight:700;display:flex;align-items:center;gap:6px;font-size:13px;
+    }
+    .cart-count{
+      background:#111;color:#fff;border-radius:999px;
+      padding:2px 7px;font-size:11px;
+    }
+
+    .hero-wrap{
+      background:radial-gradient(circle at top left,#ff9b3b33,#00000000),
+                 radial-gradient(circle at bottom right,#ff7a1a33,#00000000);
+    }
+    .hero{
+      max-width:1200px;margin:0 auto;padding:32px 20px 40px;
+      display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,0.9fr);
+      gap:28px;align-items:center;color:#fff;
+    }
+    .hero-left h1{
+      font-size:40px;line-height:1.05;margin-bottom:10px;
+    }
+    .hero-left p{
+      color:#f5f5f5;max-width:420px;font-size:14px;margin-bottom:14px;
+    }
+    .tag-pill{
+      display:inline-flex;align-items:center;gap:8px;
+      background:rgba(0,0,0,.4);padding:6px 10px;border-radius:999px;
+      font-size:12px;margin-bottom:10px;border:1px solid rgba(255,255,255,.2);
+    }
+    .cta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;}
+    .btn{
+      background:#ffb347;border:none;color:#111;
+      padding:10px 16px;border-radius:999px;
+      font-weight:700;font-size:14px;cursor:pointer;
+      display:inline-flex;align-items:center;gap:6px;
+      box-shadow:0 6px 16px rgba(0,0,0,.3);
+      transition:transform .15s,box-shadow .15s,background .2s;
+    }
+    .btn:hover{transform:translateY(-1px);box-shadow:0 10px 26px rgba(0,0,0,.45);}
+    .btn.outline{
+      background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5);
+      box-shadow:none;
+    }
+    .hero-meta{
+      display:flex;flex-wrap:wrap;gap:10px;font-size:12px;margin-top:12px;color:#ffdca3;
+    }
+
+    .hero-right{
+      position:relative;
+      border-radius:20px;overflow:hidden;
+      background:url("https://images.unsplash.com/photo-1541542684-3a9898a1b3bd?q=80&w=1200&auto=format&fit=crop") center/cover;
+      min-height:280px;box-shadow:0 18px 40px rgba(0,0,0,.55);
+    }
+    .hero-glass{
+      position:absolute;left:14px;bottom:14px;
+      background:rgba(255,255,255,.9);
+      border-radius:14px;padding:10px 12px;
+      color:#222;font-size:13px;backdrop-filter:blur(8px);
+    }
+    .hero-glass strong{font-size:14px;}
+    .hero-glass-rating{display:flex;align-items:center;gap:8px;margin-top:4px;color:#444;font-size:12px;}
+
+    main{max-width:1200px;margin:24px auto 40px;padding:0 20px;}
+    .section{margin-top:22px;}
+    .section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+    .section-title h2{font-size:22px;}
+
+    .card{
+      background:var(--card);
+      border-radius:16px;
+      padding:16px 16px 18px;
+      box-shadow:0 8px 24px rgba(0,0,0,.08);
+      border:1px solid var(--border);
+      transition:transform .15s,box-shadow .15s,background .3s,border-color .3s;
+    }
+    .card:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(0,0,0,.12);}
+
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease;}
+    .reveal.reveal-visible{opacity:1;transform:translateY(0);}
+
+    .special-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;}
+    .special-card{
+      display:flex;gap:10px;cursor:pointer;
+    }
+    .special-card img{
+      width:86px;height:72px;border-radius:12px;object-fit:cover;
+    }
+    .special-card h4{margin-bottom:2px;}
+    .special-tag{font-size:11px;color:#ff7a1a;font-weight:700;margin-bottom:2px;}
+    .special-meta{font-size:12px;color:var(--muted);}
+
+    .offer-banner{
+      display:flex;justify-content:space-between;align-items:center;
+      border-radius:16px;
+      background:linear-gradient(135deg,#ff9b3b,#ff7a1a);
+      color:#111;padding:14px 16px;margin-top:16px;
+    }
+    .offer-banner small{font-size:11px;opacity:.9;}
+    .offer-banner strong{font-size:15px;}
+    .offer-code{
+      background:#111;color:#fff;
+      padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700;
+    }
+
+    .menu-top-row{
+      display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;
+      gap:12px;margin-bottom:14px;
+    }
+    .search-box{
+      position:relative;
+    }
+    .search-box input{
+      padding:8px 30px 8px 10px;
+      border-radius:999px;border:1px solid var(--border);
+      background:var(--card);color:var(--accent);font-size:13px;min-width:210px;
+    }
+    .search-icon{
+      position:absolute;right:8px;top:50%;transform:translateY(-50%);
+      font-size:14px;opacity:.7;
+    }
+
+    .category-slider{
+      display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;
+      padding-bottom:4px;flex:1;
+    }
+    .category-slider::-webkit-scrollbar{display:none;}
+    .cat-item{
+      border-radius:999px;
+      padding:7px 14px;
+      background:var(--card);
+      border:1px solid var(--border);
+      font-size:13px;font-weight:600;
+      white-space:nowrap;
+      cursor:pointer;
+      transition:background .2s,border-color .2s,color .2s,transform .1s;
+    }
+    .cat-item.active{
+      background:var(--primary);border-color:transparent;color:#111;
+      transform:translateY(-1px);
+    }
+
+    #menuLoader{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+      gap:12px;margin-bottom:10px;
+    }
+    .shimmer-card{
+      height:110px;border-radius:14px;
+      background:linear-gradient(90deg,#ececec 0%,#f7f7f7 50%,#ececec 100%);
+      background-size:200% 100%;
+      animation:shimmer 1.3s infinite linear;
+    }
+    @keyframes shimmer{
+      0%{background-position:-200px 0;}
+      100%{background-position:200px 0;}
+    }
+
+    .menu-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:12px;
+    }
+    .menu-column h3{margin-bottom:8px;font-size:16px;}
+    .menu-dish{
+      display:flex;gap:10px;cursor:pointer;
+      padding:8px;border-radius:12px;
+      transition:background .2s,transform .1s,box-shadow .2s;
+    }
+    .menu-dish:hover{
+      background:var(--primary-soft);
+      transform:translateY(-1px);
+      box-shadow:0 8px 18px rgba(0,0,0,.08);
+    }
+    .menu-dish img{
+      width:80px;height:70px;border-radius:10px;object-fit:cover;
+    }
+    .menu-dish p{font-size:12px;color:var(--muted);}
+    .price{
+      margin-left:auto;font-weight:700;font-size:14px;color:var(--accent);
+      white-space:nowrap;
+    }
+
+    .popular-strip{
+      display:flex;overflow-x:auto;gap:10px;margin-top:10px;scrollbar-width:none;
+    }
+    .popular-strip::-webkit-scrollbar{display:none;}
+    .popular-card{
+      min-width:160px;background:var(--card);border-radius:14px;
+      padding:8px;border:1px solid var(--border);cursor:pointer;
+      transition:transform .12s,box-shadow .12s;
+    }
+    .popular-card:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(0,0,0,.12);}
+    .popular-card img{
+      width:100%;height:90px;border-radius:10px;object-fit:cover;margin-bottom:4px;
+    }
+    .popular-card h4{font-size:13px;margin-bottom:2px;}
+    .popular-card small{font-size:11px;color:var(--muted);}
+
+    .gallery-grid{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:8px;
+    }
+    .gallery-grid img{
+      width:100%;height:150px;border-radius:10px;object-fit:cover;cursor:pointer;
+      transition:transform .15s,box-shadow .15s;
+    }
+    .gallery-grid img:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(0,0,0,.18);}
+
+    .reserve-form,.contact-form{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+      gap:10px;
+    }
+    input,select,textarea{
+      border-radius:10px;border:1px solid var(--border);
+      padding:9px 10px;font-size:13px;
+      background:var(--card);color:var(--accent);
+    }
+    textarea{resize:none;min-height:80px;}
+    label{font-size:12px;color:var(--muted);margin-bottom:2px;display:block;}
+
+    iframe{
+      width:100%;height:320px;border-radius:14px;border:none;
+    }
+
+    footer{
+      padding:18px 20px;margin-top:26px;
+      background:var(--card);border-top:1px solid var(--border);
+      text-align:center;font-size:13px;color:var(--muted);
+    }
+
+    .whatsapp-btn{
+      position:fixed;bottom:20px;right:20px;
+      background:#25d366;color:#fff;font-weight:700;
+      padding:10px 14px;border-radius:999px;
+      box-shadow:0 10px 24px rgba(0,0,0,.3);
+      font-size:13px;z-index:60;
+      display:flex;align-items:center;gap:6px;
+    }
+    .floating-cart{
+      position:fixed;bottom:76px;right:22px;
+      width:44px;height:44px;border-radius:999px;
+      background:#111;color:#fff;display:flex;align-items:center;justify-content:center;
+      box-shadow:0 10px 24px rgba(0,0,0,.35);
+      font-size:20px;z-index:60;cursor:pointer;
+    }
+    .floating-cart span{
+      position:absolute;top:-6px;right:-6px;
+      background:#ff7a1a;color:#111;border-radius:999px;
+      font-size:11px;padding:2px 6px;font-weight:700;
+    }
+
+    #modal{
+      position:fixed;inset:0;display:none;
+      align-items:center;justify-content:center;
+      background:rgba(0,0,0,.55);z-index:80;
+      padding:16px;
+    }
+    #modalContent{
+      max-width:520px;width:100%;background:var(--card);
+      border-radius:16px;overflow:hidden;
+      box-shadow:0 20px 50px rgba(0,0,0,.45);
+    }
+
+    .fly-img{
+      position:fixed;z-index:1000;
+      width:80px;height:70px;border-radius:10px;object-fit:cover;
+      pointer-events:none;transition:transform .6s ease-out,opacity .6s ease-out;
+    }
+
+    @media(max-width:900px){
+      .hero{grid-template-columns:1fr;}
+      .hero{padding-bottom:26px;}
+      .gallery-grid{grid-template-columns:repeat(2,1fr);}
+      .offer-banner{flex-direction:column;align-items:flex-start;gap:8px;}
+    }
+    @media(max-width:640px){
+      nav{display:none;}
+      .nav{justify-content:space-between;}
+      .hero-left h1{font-size:30px;}
+      .popular-strip{scroll-snap-type:x mandatory;}
+      .popular-card{scroll-snap-align:start;}
+    }
+
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="brand">
+      <div class="logo">AB</div>
+      Aurora&nbsp;Bistro
+    </div>
+
+    <nav>
+      <a href="#special">Specials</a>
+      <a href="#menu">Menu</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#location">Location</a>
+      <a href="#contact">Contact</a>
+      <a class="cta" href="#reserve">Reserve</a>
+
+      <a href="order.html" class="cart-btn">
+        🛒 Cart <span id="cartCount" class="cart-count">0</span>
+      </a>
+
+      <button id="darkToggle">Dark Mode</button>
+    </nav>
+  </div>
+
+  <div class="hero-wrap">
+    <section class="hero">
+      <div class="hero-left reveal">
+        <div class="tag-pill">
+          <span>✨ Modern Indian Bistro</span>
+          <span>•</span>
+          <span>Fresh • Local • Seasonal</span>
+        </div>
+        <h1>Comfort food with a modern twist.</h1>
+        <p>Handcrafted dishes, cozy ambience and fast online ordering. Perfect for family dinners, date nights and weekend cravings.</p>
+
+        <div class="cta-row">
+          <button class="btn" id="orderOnline">Order Online</button>
+          <button class="btn outline" id="viewMenuBtn">View Digital Menu</button>
+        </div>
+
+        <div class="hero-meta">
+          <span>⭐ 4.8 rating</span>
+          <span>•</span>
+          <span>⏱ 25–40 min delivery</span>
+          <span>•</span>
+          <span>₹ Free delivery above 499</span>
+        </div>
+      </div>
+
+      <div class="hero-right reveal">
+        <div class="hero-glass">
+          <div class="special-tag">Chef’s Signature</div>
+          <strong>Truffle Mushroom Risotto</strong>
+          <div class="hero-glass-rating">
+            <span>⭐ 4.9</span><span>•</span><span>Most ordered this week</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</header>
+
+<main>
+
+  <section id="special" class="section reveal">
+    <div class="card">
+      <div class="section-title">
+        <h2>Today's Specials</h2>
+        <small style="color:var(--muted)">Limited plates • Freshly prepared</small>
+      </div>
+
+      <div class="special-grid">
+        <div class="special-card" data-name="Charred Chicken Steak" data-price="520" data-desc="Smoky grilled chicken with garlic butter and roasted vegetables.">
+          <img src="https://images.unsplash.com/photo-1525755662778-989d0524087e?q=80&w=800&auto=format&fit=crop" alt="">
+          <div>
+            <div class="special-tag">🔥 Bestseller</div>
+            <h4>Charred Chicken Steak</h4>
+            <div class="special-meta">Served with garlic mash • ₹520</div>
+          </div>
+        </div>
+
+        <div class="special-card" data-name="Spicy Prawn Masala" data-price="640" data-desc="Fresh prawns simmered in house-made coastal masala gravy.">
+          <img src="https://images.unsplash.com/photo-1553621042-f6e147245754?q=80&w=800&auto=format&fit=crop" alt="">
+          <div>
+            <div class="special-tag">🌶 Chef’s pick</div>
+            <h4>Spicy Prawn Masala</h4>
+            <div class="special-meta">Coastal style • ₹640</div>
+          </div>
+        </div>
+
+        <div class="special-card" data-name="Molten Lava Cake" data-price="260" data-desc="Warm gooey chocolate cake with vanilla ice cream.">
+          <img src="https://images.unsplash.com/photo-1512058564366-c9e3a1e2b9b7?q=80&w=800&auto=format&fit=crop" alt="">
+          <div>
+            <div class="special-tag">🍫 Sweet spot</div>
+            <h4>Molten Lava Cake</h4>
+            <div class="special-meta">Perfect for 1–2 • ₹260</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="offer-banner">
+        <div>
+          <small>Online exclusive offer</small><br>
+          <strong>Flat 20% OFF on first order above ₹699</strong>
+        </div>
+        <div>
+          <span class="offer-code">Use code: AURORA20</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <div class="card">
+      <div class="section-title">
+        <h2>Popular This Week</h2>
+        <small style="color:var(--muted)">Most loved dishes</small>
+      </div>
+
+      <div class="popular-strip">
+        <div class="popular-card" data-name="Paneer Tikka Sizzler" data-price="480" data-desc="Paneer tikka served on a hot sizzler platter with veggies.">
+          <img src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?q=80&w=800&auto=format&fit=crop" alt="">
+          <h4>Paneer Tikka Sizzler</h4>
+          <small>₹480 • 22 mins</small>
+        </div>
+        <div class="popular-card" data-name="Margherita Pizza" data-price="420" data-desc="Classic wood-fired pizza with basil, mozzarella and house sauce.">
+          <img src="https://images.unsplash.com/photo-1548365328-9daaf8bba471?q=80&w=800&auto=format&fit=crop" alt="">
+          <h4>Margherita Pizza</h4>
+          <small>₹420 • Thin crust</small>
+        </div>
+        <div class="popular-card" data-name="Masala Fries" data-price="180" data-desc="Crispy fries tossed in tangy masala seasoning.">
+          <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800&auto=format&fit=crop" alt="">
+          <h4>Masala Fries</h4>
+          <small>₹180 • Perfect snack</small>
+        </div>
+        <div class="popular-card" data-name="Cold Coffee Frappe" data-price="190" data-desc="Thick cold coffee with ice cream and whipped cream.">
+          <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=800&auto=format&fit=crop" alt="">
+          <h4>Cold Coffee Frappe</h4>
+          <small>₹190 • Iced</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section id="menu" class="section reveal">
+    <div class="card">
+      <div class="section-title">
+        <h2>Digital Menu</h2>
+        <small style="color:var(--muted)">Tap a dish to view & add to cart</small>
+      </div>
+
+      <div class="menu-top-row">
+        <div class="category-slider">
+          <button class="cat-item active" data-cat="all">🔥 All</button>
+          <button class="cat-item" data-cat="starters">🥗 Starters</button>
+          <button class="cat-item" data-cat="mains">🍛 Mains</button>
+          <button class="cat-item" data-cat="desserts">🍰 Desserts</button>
+          <button class="cat-item" data-cat="drinks">🥤 Drinks</button>
+        </div>
+        <div class="search-box">
+          <input type="text" id="menuSearch" placeholder="Search dishes...">
+          <span class="search-icon">🔍</span>
+        </div>
+      </div>
+
+      
+      <div id="menuLoader">
+        <div class="shimmer-card"></div>
+        <div class="shimmer-card"></div>
+        <div class="shimmer-card"></div>
+        <div class="shimmer-card"></div>
+        <div class="shimmer-card"></div>
+        <div class="shimmer-card"></div>
+      </div>
+
+      
+      <div class="menu-grid" id="menuGrid">
+        <div class="menu-column">
+          <h3>Starters</h3>
+
+          <div class="menu-dish" data-category="starters" data-name="Bruschetta" data-price="300" data-desc="Toasted sourdough topped with marinated tomatoes & basil.">
+            <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=800&auto=format&fit=crop" alt="">
+            <div>
+              <strong>Bruschetta</strong>
+              <p>Tomato • basil • olive oil</p>
+            </div>
+            <div class="price">₹300</div>
+          </div>
+
+          <div class="menu-dish" data-category="starters" data-name="Crispy Calamari" data-price="420" data-desc="Golden fried squid rings with lemon aioli.">
+            <img src="https://images.unsplash.com/photo-1541544741938-0af808871cc0?q=80&w=800&auto=format&fit=crop" alt="">
+            <div>
+              <strong>Crispy Calamari</strong>
+              <p>With lemon aioli</p>
+            </div>
+            <div class="price">₹420</div>
+          </div>
+
+          <div class="menu-dish" data-category="starters" data-name="Loaded Nachos" data-price="360" data-desc="Corn chips topped with beans, cheese, salsa & jalapeños.">
+            <img src="https://images.unsplash.com/photo-1608038509085-9d2d3ce8c04d?q=80&w=800&auto=format&fit=crop" alt="">
+            <div>
+              <strong>Loaded Nachos</strong>
+              <p>Beans • cheese • salsa</p>
+            </div>
+            <div class="price">₹360</div>
+          </div>
+        </div>
+
+        <div class="menu-column">
+          <h3>Mains</h3>
+
+          <div class="menu-dish" data-category="mains" data-name="Truffle Mushroom Risotto" data-price="620" data-desc="Creamy arborio rice with wild mushrooms & truffle oil.">
+            <img src="https://images.unsplash.com/photo-1604908177123-8a5b2627d1d1?q=80&w=800&auto=format&fit=crop" alt="">
+            <div>
+              <strong>Truffle Mushroom Risotto</strong>
+              <p>Rich & silky • veg</p>
+            </div>
+            <div class="price">₹620</div>
+          </div>
+
+          <div class="menu-dish" data-category="mains" data-name="Herb Grilled Salmon" data-price="780" data-desc="Norwegian salmon with herbed butter and sautéed greens.">
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop" alt="">
+            <div>
+              <strong>Herb Grilled Salmon</strong>
+              <p>Lemon butter • greens</p>
+            </div>
+            <div class="price">₹780</div>
+          </div>
+
+          <div class="menu-dish" data-category="mains" data-name="Smoked Butter Chicken" data-price="540" data-desc="Slow-cooked creamy tomato gravy with smoky tandoori chicken.">
+            <img src="https://images.unsplash.com/photo-1546069901-eacef0df6022?q=80&w=800&auto=format&fit=crop" alt="">
+            <div>
+              <strong>Smoked Butter Chicken</strong>
+              <p>With butter naan</p>
+            </div>
+            <div class="price">₹540</div>
+          </div>
+        </div>
+
+        <div class="menu-column">
+          <h3>Desserts & Drinks</h3>
+
+          <div class="menu-dish" data-category="desserts" data-name="Vanilla Panna Cotta" data-price="280" data-desc="Silky vanilla panna cotta with berry compote.">
+            <img src="https://images.unsplash.com/photo-1512058564366-c9e3a1e2b9b7?q=80&w=800&auto=format&fit=crop" alt="">
+            <div>
+              <strong>Vanilla Panna Cotta</strong>
+              <p>With berry compote</p>
+            </div>
+            <div class="price">₹280</div>
+          </div>
+
+          <div class="menu-dish" data-category="desserts" data-name="Classic Tiramisu" data-price="320" data-desc="Coffee-soaked ladyfingers layered with mascarpone cream.">
+            <img src="https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?q=80&w=800&auto=format&fit=crop" alt="">
+            <div>
+              <strong>Classic Tiramisu</strong>
+              <p>Italian favourite</p>
+            </div>
+            <div class="price">₹320</div>
+          </div>
+
+          <div class="menu-dish" data-category="drinks" data-name="Passion Fruit Cooler" data-price="210" data-desc="Refreshing cooler with passion fruit and mint.">
+            <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?q=80&w=800&auto=format&fit=crop" alt="">
+            <div>
+              <strong>Passion Fruit Cooler</strong>
+              <p>Fresh & fizzy</p>
+            </div>
+            <div class="price">₹210</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section id="reserve" class="section reveal">
+    <div class="card">
+      <div class="section-title">
+        <h2>Reserve a Table</h2>
+        <small style="color:var(--muted)">We’ll confirm your booking on call</small>
+      </div>
+      <form id="reservationForm">
+        <div class="reserve-form">
+          <div>
+            <label>Name</label>
+            <input type="text" name="name" required placeholder="Your full name">
+          </div>
+          <div>
+            <label>Phone</label>
+            <input type="tel" name="phone" required placeholder="10-digit mobile">
+          </div>
+          <div>
+            <label>Date</label>
+            <input type="date" name="date" required>
+          </div>
+          <div>
+            <label>Time</label>
+            <input type="time" name="time" required>
+          </div>
+          <div>
+            <label>Guests</label>
+            <select name="people" required>
+              <option value="">Select</option>
+              <option>1–2</option><option>3–4</option>
+              <option>5–6</option><option>7+</option>
+            </select>
+          </div>
+        </div>
+        <div style="margin-top:10px;text-align:right;">
+          <button type="submit" class="btn">Request Reservation</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  
+  <section id="gallery" class="section reveal">
+    <div class="card">
+      <div class="section-title">
+        <h2>Interior & Food Gallery</h2>
+        <small style="color:var(--muted)">Tap to enlarge</small>
+      </div>
+      <div class="gallery-grid" id="galleryGrid">
+        <img src="https://images.unsplash.com/photo-1498654896293-37aacf113fd9?q=80&w=1200&auto=format&fit=crop" alt="">
+        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200&auto=format&fit=crop" alt="">
+        <img src="https://images.unsplash.com/photo-1541542684-3a9898a1b3bd?q=80&w=1200&auto=format&fit=crop" alt="">
+        <img src="https://images.unsplash.com/photo-1458642849426-cfb724f15ef7?q=80&w=1200&auto=format&fit=crop" alt="">
+      </div>
+    </div>
+  </section>
+
+  
+  <section id="location" class="section reveal">
+    <div class="card">
+      <div class="section-title">
+        <h2>Where to Find Us</h2>
+        <small style="color:var(--muted)">Aurora Bistro, East Street, Your City</small>
+      </div>
+      <iframe
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.825321094918!2d-73.99343852334565!3d40.73061087138966!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259af18b08a2f%3A0xdda5b7f2e9e8d2b8!2sEast%20Village%2C%20New%20York%2C%20NY!5e0!3m2!1sen!2sin!4v1732870700000">
+      </iframe>
+    </div>
+  </section>
+
+
+  <section id="contact" class="section reveal">
+    <div class="card">
+      <div class="section-title">
+        <h2>Contact & Feedback</h2>
+        <small style="color:var(--muted)">We’d love to hear from you</small>
+      </div>
+      <form id="contactForm">
+        <div class="contact-form">
+          <div>
+            <label>Your Name</label>
+            <input type="text" name="cname" required placeholder="Full name">
+          </div>
+          <div>
+            <label>Email</label>
+            <input type="email" name="cemail" required placeholder="you@example.com">
+          </div>
+          <div>
+            <label>Phone</label>
+            <input type="tel" name="cphone" required placeholder="Mobile">
+          </div>
+        </div>
+        <div style="margin-top:10px;">
+          <label>Message / Feedback</label>
+          <textarea name="cmessage" required placeholder="Tell us about your experience or inquiry..."></textarea>
+        </div>
+        <div style="margin-top:10px;text-align:right;">
+          <button type="submit" class="btn">Send Message</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © <span id="year"></span> Aurora Bistro • Crafted with love • All Rights Reserved
+</footer>
+
+
+<a href="https://wa.me/919999999999?text=Hello! I want to place an order at Aurora Bistro." class="whatsapp-btn">
+  💬 WhatsApp Order
+</a>
+<a href="order.html" class="floating-cart" id="floatingCart">
+  🛒
+  <span id="cartCountFloating">0</span>
+</a>
+
+
+<div id="modal">
+  <div id="modalContent"></div>
+</div>
+
+<script>
+ 
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  
+  const darkToggle = document.getElementById("darkToggle");
+  darkToggle.addEventListener("click", () => {
+    document.documentElement.classList.toggle("dark-mode");
+    darkToggle.textContent = document.documentElement.classList.contains("dark-mode")
+      ? "Light Mode"
+      : "Dark Mode";
+  });
+
+  
+  const revealEls = document.querySelectorAll(".reveal");
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add("reveal-visible");
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:0.2});
+  revealEls.forEach(el=>io.observe(el));
+
+  
+  const loader = document.getElementById("menuLoader");
+  const menuGrid = document.getElementById("menuGrid");
+  menuGrid.style.display = "none";
+  setTimeout(()=>{
+    loader.style.display = "none";
+    menuGrid.style.display = "grid";
+  },1200);
+
+ 
+  let currentCategory = "all";
+  let currentSearch = "";
+
+  function updateMenuVisibility(){
+    const dishes = document.querySelectorAll(".menu-dish");
+    dishes.forEach(dish=>{
+      const cat = dish.dataset.category;
+      const name = dish.dataset.name.toLowerCase();
+      const desc = (dish.dataset.desc || "").toLowerCase();
+
+      const matchesCat = (currentCategory === "all" || cat === currentCategory);
+      const matchesSearch = (!currentSearch ||
+        name.includes(currentSearch) || desc.includes(currentSearch));
+
+      dish.style.display = (matchesCat && matchesSearch) ? "flex" : "none";
+    });
+  }
+
+  document.querySelectorAll(".cat-item").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      document.querySelectorAll(".cat-item").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+      currentCategory = btn.dataset.cat;
+      updateMenuVisibility();
+    });
+  });
+
+  document.getElementById("menuSearch").addEventListener("input",(e)=>{
+    currentSearch = e.target.value.toLowerCase();
+    updateMenuVisibility();
+  });
+
+  
+  function getCart(){
+    try{
+      return JSON.parse(localStorage.getItem("cart")) || [];
+    }catch(e){
+      return [];
+    }
+  }
+  function setCart(cart){
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
+  function updateCartCount(){
+    const cart = getCart();
+    const count = cart.reduce((sum,i)=>sum + (i.qty || 1),0);
+    const el1 = document.getElementById("cartCount");
+    const el2 = document.getElementById("cartCountFloating");
+    if(el1) el1.textContent = count;
+    if(el2) el2.textContent = count;
+  }
+  updateCartCount();
+
+
+  function flyToCart(imgEl){
+    const cartBtn = document.getElementById("floatingCart");
+    if(!cartBtn || !imgEl) return;
+
+    const imgRect = imgEl.getBoundingClientRect();
+    const cartRect = cartBtn.getBoundingClientRect();
+
+    const fly = imgEl.cloneNode(true);
+    fly.classList.add("fly-img");
+    fly.style.top = imgRect.top + "px";
+    fly.style.left = imgRect.left + "px";
+    document.body.appendChild(fly);
+
+    const translateX = cartRect.left - imgRect.left;
+    const translateY = cartRect.top - imgRect.top;
+
+    requestAnimationFrame(()=>{
+      fly.style.transform = `translate(${translateX}px, ${translateY}px) scale(0.3)`;
+      fly.style.opacity = "0";
+    });
+
+    setTimeout(()=>{fly.remove();},650);
+  }
+
+  function addToCart(name, price, imgUrl, imgElForAnim){
+    let cart = getCart();
+    const existing = cart.find(item=>item.name === name);
+
+    price = Number(price);
+
+    if(existing){
+      existing.qty = (existing.qty || 1) + 1;
+    }else{
+      cart.push({ name, price, img: imgUrl, qty:1 });
+    }
+
+    setCart(cart);
+    updateCartCount();
+    if(imgElForAnim) flyToCart(imgElForAnim);
+    alert(name + " added to cart!");
+    closeModal();
+  }
+
+  
+  const modal = document.getElementById("modal");
+  const modalContent = document.getElementById("modalContent");
+
+  function openModal(html){
+    modalContent.innerHTML = html;
+    modal.style.display = "flex";
+  }
+  function closeModal(){
+    modal.style.display = "none";
+    modalContent.innerHTML = "";
+  }
+  modal.addEventListener("click",e=>{
+    if(e.target === modal) closeModal();
+  });
+  document.addEventListener("keydown",e=>{
+    if(e.key === "Escape") closeModal();
+  });
+
+  
+  function attachDishClicks(selector){
+    document.querySelectorAll(selector).forEach(card=>{
+      card.addEventListener("click",()=>{
+        const name = card.dataset.name;
+        const price = Number(card.dataset.price);
+        const desc = card.dataset.desc || "";
+        const imgSrc = card.querySelector("img").src;
+
+        const html = `
+          <div style="display:flex;flex-wrap:wrap;gap:14px;padding:16px;">
+            <img src="${imgSrc}" style="flex:0 0 190px;height:150px;object-fit:cover;border-radius:14px;">
+            <div style="flex:1 1 160px;min-width:0;">
+              <h2 style="margin:0 0 6px;font-size:20px;">${name}</h2>
+              <p style="color:var(--muted);font-size:13px;margin-bottom:8px;">${desc}</p>
+              <div style="font-weight:800;font-size:18px;margin-bottom:10px;">₹${price}</div>
+              <button class="btn" id="modalAddBtn">Add to Cart</button>
+              <button class="btn outline" style="margin-left:6px;" id="modalCloseBtn">Close</button>
+            </div>
+          </div>
+        `;
+        openModal(html);
+
+        const addBtn = document.getElementById("modalAddBtn");
+        const closeBtn = document.getElementById("modalCloseBtn");
+        const imgEl = modalContent.querySelector("img");
+
+        if(addBtn){
+          addBtn.addEventListener("click",()=>{
+            addToCart(name, price, imgSrc, imgEl);
+          });
+        }
+        if(closeBtn){
+          closeBtn.addEventListener("click",closeModal);
+        }
+      });
+    });
+  }
+
+  attachDishClicks(".menu-dish");
+  attachDishClicks(".special-card");
+  attachDishClicks(".popular-card");
+
+  
+  document.getElementById("orderOnline").addEventListener("click",()=>{
+    document.getElementById("menu").scrollIntoView({behavior:"smooth"});
+  });
+  document.getElementById("viewMenuBtn").addEventListener("click",()=>{
+    document.getElementById("menu").scrollIntoView({behavior:"smooth"});
+  });
+
+  
+  document.querySelectorAll("#galleryGrid img").forEach(img=>{
+    img.addEventListener("click",()=>{
+      openModal(`<img src="${img.src}" style="width:100%;height:auto;display:block;border-radius:16px 16px 0 0;">`);
+    });
+  });
+
+  
+  document.getElementById("reservationForm").addEventListener("submit",e=>{
+    e.preventDefault();
+    alert("Reservation request sent! We will call you to confirm.");
+    e.target.reset();
+  });
+
+  document.getElementById("contactForm").addEventListener("submit",e=>{
+    e.preventDefault();
+    alert("Thank you for reaching out! We’ll get back shortly.");
+    e.target.reset();
+  });
+</script>
+
+</body>
+</html>
